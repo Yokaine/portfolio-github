@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Portfolio GitHub{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/portfolio.css') }}">
+{% endblock %}
+
+{% block body %}
+<main class="container">
+
+    <div class="page-head">
+        <span class="brand">Portfolio GitHub</span>
+        <button id="theme-toggle" type="button" aria-label="Changer de thème"></button>
+    </div>
+
+    <section id="welcome" class="welcome">
+        <h2>Découvrez les projets d'un développeur</h2>
+        <p>Entrez un nom d'utilisateur GitHub pour générer un portfolio de ses projets publics — aucune connaissance technique n'est nécessaire.</p>
+    </section>
+
+    <div class="search-wrap">
+        <form id="search-form" class="search-bar">
+            <label for="username" class="visually-hidden">Pseudo GitHub</label>
+            <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M18 18L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="username" name="username" placeholder="Nom d'utilisateur GitHub" autocomplete="off" required>
+            <button type="submit">Rechercher</button>
+        </form>
+
+        <label class="demo-toggle">
+            <input type="checkbox" id="demo-mode">
+            Mode démo (sans appel à l'API GitHub)
+        </label>
+        <p id="demo-hint" style="display:none;">
+            Pseudos disponibles : <code>demo-user</code>, <code>empty-user</code>,
+            <code>notfound-user</code>, <code>quota-user</code>, <code>network-error-user</code>
+        </p>
+    </div>
+
+    <div id="status" aria-live="polite"></div>
+
+    <section id="profile"></section>
+
+    <div id="language-chips"></div>
+
+    <div id="repo-controls" style="display:none;">
+        <select id="language-filter" class="visually-hidden">
+            <option value="">Tous les langages</option>
+        </select>
+        <button type="button" id="forks-toggle" class="forks-toggle" aria-pressed="false">
+            Inclure aussi les forks
+        </button>
+    </div>
+
+    <p id="repo-count"></p>
+    <div id="repos"></div>
+
+    <button id="export-html" type="button" style="display:none;">Télécharger ce portfolio (.html)</button>
+
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/portfolio.js') }}"></script>
+{% endblock %}
