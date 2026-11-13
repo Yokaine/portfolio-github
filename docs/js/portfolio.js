@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const demoModeCheckbox = document.getElementById('demo-mode');
     const demoHint = document.getElementById('demo-hint');
     const repoControls = document.getElementById('repo-controls');
-    const languageFilter = document.getElementById('language-filter');
+    let currentLanguageFilter = '';
     const languageChipsEl = document.getElementById('language-chips');
     const forksToggle = document.getElementById('forks-toggle');
     const exportButton = document.getElementById('export-html');
@@ -108,6 +108,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function clearView() {
+        
+        currentLanguageFilter = '';
         profileEl.innerHTML = '';
         reposEl.innerHTML = '';
         languageChipsEl.innerHTML = '';
@@ -350,7 +352,7 @@ footer { margin-top:2rem; font-size:0.8rem; color:#777; }
         });
 
         const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-        const selected = languageFilter.value;
+        const selected = currentLanguageFilter;
 
         const allChip = `<button type="button" class="chip ${selected === '' ? 'active' : ''}" data-lang="">Tous (${repos.length})</button>`;
         const chips = sorted.map(([lang, count]) => `
@@ -361,7 +363,7 @@ footer { margin-top:2rem; font-size:0.8rem; color:#777; }
 
         languageChipsEl.querySelectorAll('button[data-lang]').forEach(btn => {
             btn.addEventListener('click', () => {
-                languageFilter.value = btn.dataset.lang;
+                currentLanguageFilter = btn.dataset.lang;
                 applyFiltersAndRender();
             });
         });
@@ -393,14 +395,19 @@ footer { margin-top:2rem; font-size:0.8rem; color:#777; }
     }
 
     function applyFiltersAndRender() {
-        const selectedLanguage = languageFilter.value;
+        const selectedLanguage = currentLanguageFilter;
 
         let base = allRepos.filter(repo => includeForks || !repo.fork);
         renderLanguageChips(base);
 
-        let filtered = selectedLanguage
-            ? base.filter(repo => repo.language === selectedLanguage)
-            : base;
+        let filtered;
+        if (selectedLanguage === '') {
+            filtered = base;
+        } else if (selectedLanguage === 'Autre') {
+            filtered = base.filter(repo => !repo.language);
+        } else {
+            filtered = base.filter(repo => repo.language === selectedLanguage);
+        }
 
         filtered.sort((a, b) => {
             const aFeatured = featuredRepos.has(a.name);
