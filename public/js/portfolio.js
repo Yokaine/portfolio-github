@@ -178,49 +178,98 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function buildStandaloneHtml(user, repos) {
+        const accentHue = accentHueFromUsername(user.login);
+
         const reposHtml = repos.map(repo => {
             const description = repo.description || 'Pas de description.';
             const language = repo.language || 'Non renseigné';
             const demoLink = repo.homepage
-                ? `<a href="${repo.homepage}" target="_blank" rel="noopener">Voir la démo</a>`
+                ? `<a href="${repo.homepage}" target="_blank" rel="noopener">Démo</a>`
                 : '';
             return `
                 <article class="repo-card">
                     <h3>${repo.name}</h3>
-                    <p>${description}</p>
-                    <p>Langage : ${language}</p>
-                    <a href="${repo.html_url}" target="_blank" rel="noopener">Voir le code</a>
-                    ${demoLink}
+                    <p class="desc">${description}</p>
+                    <p class="lang">${language}</p>
+                    <div class="links">
+                        <a href="${repo.html_url}" target="_blank" rel="noopener">Code</a>
+                        ${demoLink}
+                    </div>
                 </article>
             `;
         }).join('');
 
-        const bio = user.bio ? `<p>${user.bio}</p>` : '';
+        const bio = user.bio ? `<p class="bio">${user.bio}</p>` : '';
         const name = user.name || user.login;
 
         return `<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portfolio de ${name}</title>
 <style>
-body { font-family: system-ui, Arial, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; background:#fafaf9; color:#16181d; }
-#profile { display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; }
-#profile img { border-radius:16px; width:88px; height:88px; object-fit:cover; }
-#repos { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:1rem; }
-.repo-card { background:#fff; border:1px solid #e4e4e1; border-radius:12px; padding:1rem; }
-.repo-card a { display:inline-block; margin-right:0.75rem; margin-top:0.5rem; }
-footer { margin-top:2rem; font-size:0.8rem; color:#777; }
+* { box-sizing: border-box; }
+body {
+    font-family: "Public Sans", system-ui, -apple-system, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: #fafaf9;
+    color: #16181d;
+    line-height: 1.5;
+}
+a { color: inherit; }
+.accent { color: hsl(${accentHue} 72% 42%); }
+#profile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e4e4e1;
+    border-radius: 16px;
+}
+#profile img {
+    width: 80px; height: 80px;
+    border-radius: 14px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+#profile h1 { font-size: 1.4rem; margin: 0 0 0.3rem; }
+#profile .bio { color: #6b7280; margin: 0.3rem 0; max-width: 55ch; }
+#profile a { font-size: 0.9rem; text-decoration: underline; }
+#repos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+.repo-card {
+    border: 1px solid #e4e4e1;
+    border-radius: 14px;
+    padding: 1rem;
+    min-width: 0;
+}
+.repo-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; word-break: break-word; }
+.repo-card .desc { color: #6b7280; font-size: 0.9rem; margin: 0 0 0.5rem; }
+.repo-card .lang { font-size: 0.78rem; color: #9a9aa2; margin: 0 0 0.6rem; }
+.repo-card .links { display: flex; gap: 1rem; font-size: 0.85rem; }
+footer { margin-top: 2rem; font-size: 0.78rem; color: #9a9aa2; text-align: center; }
+@media (max-width: 480px) {
+    body { padding: 1rem; }
+    #profile { flex-direction: column; text-align: center; }
+    #repos { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<h1>Portfolio de ${name}</h1>
 <div id="profile">
     <img src="${user.avatar_url}" alt="Avatar de ${user.login}">
     <div>
-        <h2>${name}</h2>
+        <h1>${name}</h1>
         ${bio}
-        <a href="${user.html_url}" target="_blank" rel="noopener">Voir le profil GitHub</a>
+        <a class="accent" href="${user.html_url}" target="_blank" rel="noopener">Voir le profil GitHub</a>
     </div>
 </div>
 <section id="repos">${reposHtml}</section>
