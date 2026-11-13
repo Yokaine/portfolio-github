@@ -1,0 +1,47 @@
+[
+  {
+    "name": "portfolio-app",
+    "description": "Application de portfolio généré depuis GitHub.",
+    "language": "JavaScript",
+    "html_url": "https://github.com/demo-user/portfolio-app",
+    "homepage": "https://demo-user.github.io/portfolio-app",
+    "fork": false,
+    "updated_at": "2026-10-20T10:00:00Z"
+  },
+  {
+    "name": "api-symfony",
+    "description": "API REST construite avec Symfony.",
+    "language": "PHP",
+    "html_url": "https://github.com/demo-user/api-symfony",
+    "homepage": null,
+    "fork": false,
+    "updated_at": "2026-09-15T08:30:00Z"
+  },
+  {
+    "name": "data-scripts",
+    "description": null,
+    "language": "Python",
+    "html_url": "https://github.com/demo-user/data-scripts",
+    "homepage": "",
+    "fork": false,
+    "updated_at": "2026-08-01T14:00:00Z"
+  },
+  {
+    "name": "old-fork-project",
+    "description": "Un fork d'un projet tiers.",
+    "language": "Go",
+    "html_url": "https://github.com/demo-user/old-fork-project",
+    "homepage": null,
+    "fork": true,
+    "updated_at": "2026-05-10T09:00:00Z"
+  },
+  {
+    "name": "no-language-repo",
+    "description": "Dépôt sans langage détecté (ex: markdown only).",
+    "language": null,
+    "html_url": "https://github.com/demo-user/no-language-repo",
+    "homepage": null,
+    "fork": false,
+    "updated_at": "2026-03-01T12:00:00Z"
+  }
+]
