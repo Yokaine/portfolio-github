@@ -1,0 +1,21 @@
+{
+  "demo-user": {
+    "type": "ok",
+    "profile": "demoUserProfile.json",
+    "repos": "demoUserRepos.json"
+  },
+  "empty-user": {
+    "type": "ok",
+    "profile": "emptyUserProfile.json",
+    "repos": "emptyUserRepos.json"
+  },
+  "notfound-user": {
+    "type": "not_found"
+  },
+  "quota-user": {
+    "type": "rate_limited"
+  },
+  "network-error-user": {
+    "type": "network_error"
+  }
+}
