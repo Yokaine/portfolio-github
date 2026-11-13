@@ -9,10 +9,6 @@ jobs:
   lint-and-build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: app
-
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -20,24 +16,24 @@ jobs:
       - name: Installer PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: "8.3"
           extensions: intl, zip, opcache
 
-      - name: Installer les dépendances Composer
+      - name: Installer les dependances Composer
         run: composer install --no-progress --prefer-dist
 
       - name: Lint syntaxe PHP
         run: find src -name "*.php" -exec php -l {} \;
 
-      - name: Vérifier la config Symfony
+      - name: Verifier la config Symfony
         run: php bin/console lint:container
 
       - name: Lint des templates Twig
         run: php bin/console lint:twig templates/
 
-      - name: Lint JSON (fichiers démo)
+      - name: Lint JSON fichiers demo
         run: |
           for file in public/demo/*.json; do
-            echo "Vérification de $file"
-            php -r "json_decode(file_get_contents('$file'), true); if (json_last_error() !== JSON_ERROR_NONE) { echo 'JSON invalide: $file'; exit(1); }"
+            echo "Verification de $file"
+            php -r "json_decode(file_get_contents(\"$file\"), true); if (json_last_error() !== JSON_ERROR_NONE) { echo \"JSON invalide: $file\"; exit(1); }"
           done
